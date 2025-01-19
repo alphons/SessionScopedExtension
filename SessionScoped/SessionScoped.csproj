@@ -8,8 +8,8 @@
 		<Authors>Alphons van der Heijden</Authors>
 		<Description>Adds a session-scoped IHostedService service to the services collection</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<RepositoryUrl>https://github.com/alphons</RepositoryUrl>
-		<PackageTags>DependencyInjection;SessionScoped</PackageTags>
+		<RepositoryUrl>https://github.com/alphons/SessionScopedExtension</RepositoryUrl>
+		<PackageTags>AspNetCore;DependencyInjection;SessionScoped</PackageTags>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
