@@ -1,4 +1,4 @@
-﻿# builder.Services.AddSessionScoped<T>();
+﻿# builder.Services.AddSessionScoped&lt;T&gt;();
 
 A lightweight extension for managing session-scoped data in ASP.NET Core applications.
 
