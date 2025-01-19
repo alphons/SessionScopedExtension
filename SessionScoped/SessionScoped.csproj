@@ -3,7 +3,7 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<PackageId>Microsoft.Extensions.DependencyInjection.SessionScoped</PackageId>
+		<PackageId>Extensions.DependencyInjection.SessionScoped</PackageId>
 		<Version>9.0.0</Version>
 		<Authors>Alphons van der Heijden</Authors>
 		<Description>Adds a session-scoped IHostedService service to the services collection</Description>
@@ -11,6 +11,7 @@
 		<RepositoryUrl>https://github.com/alphons/SessionScopedExtension</RepositoryUrl>
 		<PackageTags>AspNetCore;DependencyInjection;SessionScoped</PackageTags>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
