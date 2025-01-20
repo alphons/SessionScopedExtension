@@ -4,13 +4,25 @@ public class ExampleService(ILoggerFactory loggerFactory) : IHostedService
 {
 	private readonly ILogger Logger = loggerFactory.CreateLogger<ExampleService>();
 
-	public async Task<int> CalcAsync(int a, int b)
+	private string name = "unknown";
+	public async Task<bool> SetNameAsync(string Name)
 	{
-		Logger.LogInformation("CalcAsync {a} x {b}", a , b);
+		this.name = Name;
+
+		Logger.LogInformation("SetNameAsync {Name}", Name);
 
 		await Task.Delay(100);
 
-		return a * b;
+		return true;
+	}
+
+	public async Task<string> GetNameAsync()
+	{
+		Logger.LogInformation("GetNameAsync {name}", name);
+
+		await Task.Delay(100);
+
+		return name;
 	}
 
 	public async Task StartAsync(CancellationToken cancellationToken)
