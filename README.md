@@ -14,7 +14,39 @@ SessionScoped simplifies session management by providing scoped data storage tie
 
 ## Getting Started
 
-1. **Configure AddSessionScoped**
+1. **Create a Service implementing IHostedService interface**
+
+```csharp
+public class ExampleService(ILoggerFactory loggerFactory) : IHostedService
+{
+	private readonly ILogger Logger = loggerFactory.CreateLogger<ExampleService>();
+
+	public async Task<int> CalcAsync(int a, int b)
+	{
+		Logger.LogInformation("CalcAsync {a} x {b}", a , b);
+
+		await Task.Delay(100);
+
+		return a * b;
+	}
+
+	public async Task StartAsync(CancellationToken cancellationToken)
+	{
+		Logger.LogWarning("StartAsync");
+
+		await Task.Delay(100);
+	}
+
+	public async Task StopAsync(CancellationToken cancellationToken)
+	{
+		Logger.LogWarning("StopAsync");
+
+		await Task.Delay(100);
+	}
+}
+```
+
+2. **Configure AddSessionScoped**
 
 Register the session and `SessionScoped` in your `Startup.cs` or `Program.cs` file:
 
@@ -52,41 +84,9 @@ app.MapDefaultControllerRoute();
 app.Run();
 ```
 
-2. **Create a Service implementing IHostedService interface**
-
-```csharp
-public class ExampleService(ILoggerFactory loggerFactory) : IHostedService
-{
-	private readonly ILogger Logger = loggerFactory.CreateLogger<ExampleService>();
-
-	public async Task<int> CalcAsync(int a, int b)
-	{
-		Logger.LogInformation("CalcAsync {a} x {b}", a , b);
-
-		await Task.Delay(100);
-
-		return a * b;
-	}
-
-	public async Task StartAsync(CancellationToken cancellationToken)
-	{
-		Logger.LogWarning("StartAsync");
-
-		await Task.Delay(100);
-	}
-
-	public async Task StopAsync(CancellationToken cancellationToken)
-	{
-		Logger.LogWarning("StopAsync");
-
-		await Task.Delay(100);
-	}
-}
-```
-
 3. **Use SessionScopedFactory<T>**
 
-Inject `SessionScopedFactory<ExampleService> factory` into your services or controllers to manage session-scoped data:
+Inject `SessionScopedFactory<ExampleService> factory` into your services or controllers to get the instance of your session-scoped service:
 
 ```csharp
 public class ExampleController(SessionScopedFactory<ExampleService> factory) : ControllerBase
