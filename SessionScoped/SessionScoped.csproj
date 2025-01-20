@@ -4,7 +4,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<PackageId>Extensions.DependencyInjection.SessionScoped</PackageId>
-		<Version>9.0.1</Version>
+		<Version>9.0.2</Version>
 		<Authors>Alphons van der Heijden</Authors>
 		<Description>Adds a session-scoped IHostedService service to the services collection</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>

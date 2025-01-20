@@ -33,13 +33,13 @@ public class SessionScopedFactory<T>(
 	private readonly ConcurrentDictionary<string, DateTimeOffset> timeout = new();
 
 	/// <summary>
-	/// Creates a wrapped instance of the scoped service.
+	/// Creates an instance of the scoped service.
 	/// </summary>
-	/// <returns>A wrapped session-scoped service.</returns>
-	private SessionScopedWrapper GetScopedServiceWrapped()
+	/// <returns>A session-scoped service.</returns>
+	private T GetScopedService()
 	{
 		using var scope = serviceProvider.CreateScope();
-		return new(scope.ServiceProvider.GetRequiredService<T>());
+		return scope.ServiceProvider.GetRequiredService<T>();
 	}
 
 	/// <summary>
@@ -57,9 +57,9 @@ public class SessionScopedFactory<T>(
 
 			if (!services.TryGetValue(sessionId, out SessionScopedWrapper? wrapper))
 			{
-				wrapper = GetScopedServiceWrapped();
-				if (wrapper == null)
+				var service = GetScopedService() ?? 
 					throw new InvalidOperationException("Cannot get scoped service.");
+				wrapper = new SessionScopedWrapper(service);
 				if (services.TryAdd(sessionId, wrapper))
 				{
 					wrapper.Start();
@@ -82,7 +82,7 @@ public class SessionScopedFactory<T>(
 		{
 			await service.StopAsync();
 			Logger.LogInformation("Removed stopped service with ID: {sessionId}", sessionId);
-			service = null;
+			service = null; // Let the GC collect it
 		}
 
 		// Remove the timeout entry
@@ -116,10 +116,10 @@ public class SessionScopedFactory<T>(
 		{
 			try
 			{
-				// Configurable interval duration
+				// Non-Configurable interval duration (good sampling)
 				await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
 
-				// Determine the threshold for expired items
+				// Determine new threshold for expired items
 				var expirationThreshold = DateTimeOffset.UtcNow.Subtract(sessionTimeout);
 
 				var sessionIds = timeout.Where(x => x.Value < expirationThreshold).Select(x => x.Key).ToArray();
