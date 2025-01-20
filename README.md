@@ -21,13 +21,25 @@ public class ExampleService(ILoggerFactory loggerFactory) : IHostedService
 {
 	private readonly ILogger Logger = loggerFactory.CreateLogger<ExampleService>();
 
-	public async Task<int> CalcAsync(int a, int b)
+	private string name = "unknown";
+	public async Task<bool> SetNameAsync(string Name)
 	{
-		Logger.LogInformation("CalcAsync {a} x {b}", a , b);
+		this.name = Name;
+
+		Logger.LogInformation("SetNameAsync {Name}", Name);
 
 		await Task.Delay(100);
 
-		return a * b;
+		return true;
+	}
+
+	public async Task<string> GetNameAsync()
+	{
+		Logger.LogInformation("GetNameAsync {name}", name);
+
+		await Task.Delay(100);
+
+		return name;
 	}
 
 	public async Task StartAsync(CancellationToken cancellationToken)
@@ -95,10 +107,17 @@ public class ExampleController(SessionScopedFactory<ExampleService> factory) : C
 	{
 		HttpContext.Session.SetString("Started", DateTime.Now.ToString());
 
-		var result = await factory.Instance.CalcAsync(123, 456);
+		var result = await factory.Instance.SetNameAsync($"alphons {Guid.NewGuid()}");
 
-		return Ok(result);
+		return Ok("name is set, check url /Example/WhatsYourName");
 	}
+	public async Task<IActionResult> WhatsYourName()
+	{
+		var name = await factory.Instance.GetNameAsync();
+
+		return Ok(name);
+	}
+
 }
 ```
 
