@@ -20,5 +20,4 @@ public class ExampleController(SessionScopedFactory<ExampleService> factory) : C
 
 		return Ok(name);
 	}
-
 }

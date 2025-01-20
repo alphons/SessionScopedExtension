@@ -103,21 +103,21 @@ Inject `SessionScopedFactory<ExampleService> factory` into your services or cont
 ```csharp
 public class ExampleController(SessionScopedFactory<ExampleService> factory) : ControllerBase
 {
+	private readonly ExampleService exampleService = factory.Instance;
 	public async Task<IActionResult> Index()
 	{
 		HttpContext.Session.SetString("Started", DateTime.Now.ToString());
 
-		var result = await factory.Instance.SetNameAsync($"alphons {Guid.NewGuid()}");
+		var result = await exampleService.SetNameAsync($"alphons {Guid.NewGuid()}");
 
 		return Ok("name is set, check url /Example/WhatsYourName");
 	}
 	public async Task<IActionResult> WhatsYourName()
 	{
-		var name = await factory.Instance.GetNameAsync();
+		var name = await exampleService.GetNameAsync();
 
 		return Ok(name);
 	}
-
 }
 ```
 
