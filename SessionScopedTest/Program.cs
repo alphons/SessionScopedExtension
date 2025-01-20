@@ -15,7 +15,8 @@ services.AddMvc();
 services.AddDistributedMemoryCache();
 services.AddSession(options =>
 {
-	options.IdleTimeout = TimeSpan.FromSeconds(10); // testing timeout
+	// for testing timeout TimeSpan.FromSeconds(10);
+	options.IdleTimeout = TimeSpan.FromMinutes(20);
 	options.Cookie.Name = ".AspNetCore.Session";
 	options.Cookie.HttpOnly = true;
 	options.Cookie.IsEssential = true;
