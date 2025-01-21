@@ -104,6 +104,7 @@ Inject `SessionScopedFactory<ExampleService> factory` into your services or cont
 public class ExampleController(SessionScopedFactory<ExampleService> factory) : ControllerBase
 {
 	private readonly ExampleService exampleService = factory.Instance;
+
 	public async Task<IActionResult> Index()
 	{
 		HttpContext.Session.SetString("Started", DateTime.Now.ToString());
