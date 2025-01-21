@@ -127,7 +127,7 @@ public class ExampleController(SessionScopedFactory<ExampleService> factory) : C
 
 ## Requirements
 
-- .NET 9 or higher
+- .NET 8 or higher
 - ASP.NET Core
 
 ## Contributing
